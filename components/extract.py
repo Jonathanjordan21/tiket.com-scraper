@@ -144,12 +144,14 @@ def scrape_one_page(dict_name, driver, n):
         for page in driver.find_elements(By.XPATH, "//*[@class='Pagination_page_number__iJiI3 HcPVsG_text HcPVsG_size_b2 HcPVsG_weight_bold']"):
             if int(page.text) == 1:
                 # sleep(10)
+                print('yoauw')
                 page.click()
                 break
-        for page in driver.find_elements(By.XPATH, "//*[@class='Pagination_page_number__iJiI3']"):
-            sleep(10)
-            page.click()
-            break
+        print("kndamldnak")
+        WebDriverWait(driver,21).until(EC.element_to_be_clickable((By.XPATH, "//*[@class='Pagination_page_number__iJiI3']"))).click()
+            # sleep(10)
+            # page.click()
+            # break
         
     page_btn = EC.presence_of_all_elements_located((By.XPATH, "//*[@class='Pagination_page_number__iJiI3 HcPVsG_text HcPVsG_size_b2 HcPVsG_weight_bold']"))
 
