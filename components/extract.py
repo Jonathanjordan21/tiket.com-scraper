@@ -150,6 +150,7 @@ def scrape_one_page(dict_name, driver, n):
                 except:
                     print("Target Out of Bound!")
                 # print('yoauw')
+                
                 page.click()
                 break
         print("kndamldnak")
@@ -169,7 +170,10 @@ def scrape_one_page(dict_name, driver, n):
                 except :
                     print('target out of boundS!')
                 print("CLLLLLALA")
-                page.click()
+                try :
+                    page.click()
+                except:
+                    print("UNCLICKABLE!")
                 print(f"page {n} clicked!")
                 break
             # elif int(page.text) % 6 == 0:
