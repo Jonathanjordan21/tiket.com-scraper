@@ -17,8 +17,8 @@ def scrape_reviews(url):
 # make chrome log requests
     desired_capabilities = DesiredCapabilities.CHROME
     desired_capabilities["goog:loggingPrefs"] = {"performance": "ALL"}  # newer: goog:loggingPrefs
-    # options = webdriver.ChromeOptions()
-    options = webdriver.FirefoxOptions()
+    options = webdriver.ChromeOptions()
+    # options = webdriver.FirefoxOptions()
     
     # Chrome will start in Headless mode
     options.add_argument('--headless')
