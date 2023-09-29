@@ -156,7 +156,8 @@ def scrape_one_page(dict_name, driver, n):
         print("kndamldnak")
 
         for x in driver.find_elements(By.CLASS_NAME, "Pagination_page_selected_container__2xna2"):
-            if x == '':
+            print(x.text)
+            if x.text == '':
                 driver.execute_script("arguments[0].click();",x)
                 break
             # sleep(10)
