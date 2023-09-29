@@ -20,7 +20,12 @@ def wordcloud(df_data, stop_words):
 
     strs = " ".join([token for token in tokens if token not in stop])
     fig, ax = plt.subplots(figsize=(12,12))
-    ax.imshow(WordCloud().generate(strs))
+    try :
+        ax.imshow(WordCloud().generate(strs))
+    except:
+        print("Error Occur! WordCloud need at least one Word")
+        pass
+
     ax.axis('off')
 
     return fig, ax
