@@ -7,6 +7,7 @@ from selenium.webdriver.safari.service import Service
 from selenium.webdriver.support.ui import WebDriverWait
 from webdriver_manager.chrome import ChromeDriverManager
 from webdriver_manager.firefox import GeckoDriverManager
+from webdriver_manager.opera import OperaDriverManager
 from webdriver_manager.microsoft import EdgeChromiumDriverManager
 from selenium.webdriver.support import expected_conditions as EC
 import json
@@ -34,7 +35,7 @@ def scrape_reviews(url):
     
     driver = webdriver.Safari(
         # service = Service(ChromeDriverManager().install()),
-        service=Service(EdgeChromiumDriverManager().install()),
+        service=Service(OperaDriverManager().install()),
         options=options,
         # desired_capabilities=desired_capabilities
     )
