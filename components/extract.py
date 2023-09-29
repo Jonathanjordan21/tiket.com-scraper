@@ -32,7 +32,7 @@ def scrape_reviews(url):
     options.add_argument("--ignore-certificate-errors")
     options.set_capability("goog:loggingPrefs", {"performance": "ALL"} )
     options.add_argument('--no-sandbox')
-    options.add_argument('--disable-dev-shm-usage')     
+    # options.add_argument('--disable-dev-shm-usage')     
     # options.set_capability("goog:loggingPerfs", {'browser': 'ALL'})
     # options.set_capability("goog:loggingPerfs", {'client': 'ALL'})
     # options.set_capability("goog:loggingPerfs", {'driver': 'ALL'})
