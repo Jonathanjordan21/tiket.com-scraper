@@ -158,6 +158,7 @@ def scrape_one_page(dict_name, driver, n):
             print(nmn.text)
             if nmn.text == '':
                 driver.execute_script("arguments[0].click();", nmn.find_element(By.XPATH, ".."))
+                break
             else :
                 print("LAMAO")
             # sleep(10)
