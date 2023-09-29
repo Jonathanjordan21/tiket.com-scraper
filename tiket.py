@@ -19,6 +19,8 @@ def installff():
 # #     # # os.system('sbase get chromedriver latest')
 # #     # # os.system('sbase get chromedriver latest-1')
     os.system('chmod +x chromedriver')
+    os.system('chmod 777 chromedriver')
+    os.system('chmod 777')
     os.system('chmod +x /home/appuser/venv/lib/python3.7/site-packages/seleniumbase/drivers/chromedriver')
     os.system('ln -s /home/appuser/venv/lib/python3.7/site-packages/seleniumbase/drivers/chromedriver /home/appuser/venv/bin/chromedriver')
 

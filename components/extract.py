@@ -40,7 +40,7 @@ def scrape_reviews(url):
     # options.set_capability("marionette", False)
     
     driver = webdriver.Chrome(
-        service = Service(ChromeDriverManager().install()),
+        # service = Service(ChromeDriverManager().install()),
         # service=Service(ChromeDriverManager().install()),
         options=options,
         # desired_capabilities=desired_capabilities
