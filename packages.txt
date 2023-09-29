@@ -1,8 +1,0 @@
-streamlit
-selenium
-webdriver_manager
-nltk
-seaborn
-matplotlib
-pandas
-wordcloud
