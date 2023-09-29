@@ -73,8 +73,9 @@ if st.button(label="Download Reviews Data"):
         for n in range(1,total_pages+1):
             m = extract.scrape_one_page(dict_name, driver, n)
             bar.progress(m/total_pages)
-    except Exception:
+    except Exception as e:
         # print("Timeout!")
+        st.write(e)
         st.write("The operation cancelled on the way!")
     n_data = m*5
     # n_data = extract.scrape_pages(f_name, driver)
