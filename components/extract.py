@@ -145,7 +145,10 @@ def scrape_one_page(dict_name, driver, n):
         for page in driver.find_elements(By.XPATH, "//*[@class='Pagination_page_number__iJiI3 HcPVsG_text HcPVsG_size_b2 HcPVsG_weight_bold']"):
             if int(page.text) == 1:
                 # sleep(10)
-                ActionChains(driver).move_to_element(page).perform()
+                try :
+                    ActionChains(driver).move_to_element(page).perform()
+                except:
+                    print("Target Out of Bound!")
                 # print('yoauw')
                 page.click()
                 break
@@ -161,7 +164,10 @@ def scrape_one_page(dict_name, driver, n):
         try :
             if int(page.text) == n:
                 # sleep(5)
-                ActionChains(driver).move_to_element(page).perform()
+                try :
+                    ActionChains(driver).move_to_element(page).perform()
+                except :
+                    print('target out of boundS!')
                 print("CLLLLLALA")
                 page.click()
                 print(f"page {n} clicked!")
