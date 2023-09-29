@@ -88,7 +88,7 @@ if st.button(label="Download Reviews Data"):
     bar = st.progress(0)
     m=0
     try :
-        for n in range(1,total_pages+1):
+        for n in range(2,total_pages+1):
             m = extract.scrape_one_page(dict_name, driver, n)
             bar.progress(m/total_pages)
     except Exception as e:
