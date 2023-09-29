@@ -145,7 +145,8 @@ def scrape_one_page(dict_name, driver, n):
         for page in driver.find_elements(By.XPATH, "//*[@class='Pagination_page_number__iJiI3 HcPVsG_text HcPVsG_size_b2 HcPVsG_weight_bold']"):
             if int(page.text) == 1:
                 # sleep(10)
-                print('yoauw')
+                ActionChains(driver).move_to_element(page).perform()
+                # print('yoauw')
                 page.click()
                 break
         print("kndamldnak")
@@ -161,6 +162,7 @@ def scrape_one_page(dict_name, driver, n):
             if int(page.text) == n:
                 # sleep(5)
                 ActionChains(driver).move_to_element(page).perform()
+                print("CLLLLLALA")
                 page.click()
                 print(f"page {n} clicked!")
                 break
