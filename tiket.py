@@ -77,7 +77,7 @@ if 'states' not in st.session_state:
 
 if st.button(label="Download Reviews Data"):
     st.write("Extracting data...")
-    dict_name, driver,total_reviews, total_pages = extract.scrape_reviews(url)
+    dict_name, driver,total_reviews, total_pages = extract.scrape_reviews(url.strip())
     st.session_state.hotel.append(dict_name)
     # st.progress(st.session_state.extract_progress, f'{st.session_state.extract_progress*100}%')
     # st.write("Done!")for n in range(1,l+1):
