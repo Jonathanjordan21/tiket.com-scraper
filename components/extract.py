@@ -41,7 +41,7 @@ def scrape_reviews(url):
     
     driver = webdriver.Chrome(
         # service = Service(ChromeDriverManager().install()),
-        service=Service(ChromeDriverManager().install()),
+        # service=Service(ChromeDriverManager().install()),
         options=options,
         # desired_capabilities=desired_capabilities
     )
