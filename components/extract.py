@@ -154,9 +154,8 @@ def scrape_one_page(dict_name, driver, n):
                 driver.execute_script("arguments[0].click();", page)
                 break
         print("kndamldnak")
-        for page in WebDriverWait(driver,21).until(EC.presence_of_all_elements_located((By.XPATH, "//*[@class='Pagination_page_number__iJiI3']"))):
-            print("LOLI")
-            driver.execute_script("arguments[0].click();", page)
+
+            driver.execute_script("arguments[0].click();", driver.find_element(By.XPATH, "/html[1]/body[1]/div[1]/div[2]/div[3]/div[2]/div[4]/div[7]/*[name()='svg'][1]"))
             # sleep(10)
             # page.click()
             # break
