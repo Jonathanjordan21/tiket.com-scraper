@@ -6,7 +6,11 @@ import os
 
 @st.cache_resource
 def installff():
-    os.system('sbase install chromedriver latest')
+    os.system('sbase get chromedriver latest')
+    # os.system('sbase get chromedriver 107')
+    # os.system('sbase get chromedriver 107.0.5304.62')
+    # os.system('sbase get chromedriver latest')
+    # os.system('sbase get chromedriver latest-1')
     os.system('ln -s /home/appuser/venv/lib/python3.7/site-packages/seleniumbase/drivers/chromedriver /home/appuser/venv/bin/chromedriver')
 
 _ = installff()
