@@ -4,6 +4,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.support.ui import WebDriverWait
 from webdriver_manager.chrome import ChromeDriverManager
+from webdriver_manager.firefox import GeckoDriverManager
 from selenium.webdriver.support import expected_conditions as EC
 import json
 import os
@@ -29,7 +30,7 @@ def scrape_reviews(url):
     
     driver = webdriver.Firefox(
         # service = Service(ChromeDriverManager().install()),
-        
+        service=Service(GeckoDriverManager().install()),
         options=options,
         # desired_capabilities=desired_capabilities
     )
