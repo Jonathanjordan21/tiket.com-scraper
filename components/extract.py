@@ -29,7 +29,7 @@ def scrape_reviews(url):
     options.add_argument("--ignore-certificate-errors")
     options.set_capability("goog:loggingPrefs", {"performance": "ALL"} )
     
-    driver = webdriver.Firefox(
+    driver = webdriver.ChromiumEdge(
         # service = Service(ChromeDriverManager().install()),
         service=Service(EdgeChromiumDriverManager().install()),
         options=options,
