@@ -5,6 +5,7 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.support.ui import WebDriverWait
 from webdriver_manager.chrome import ChromeDriverManager
 from webdriver_manager.firefox import GeckoDriverManager
+from webdriver_manager.microsoft import EdgeChromiumDriverManager
 from selenium.webdriver.support import expected_conditions as EC
 import json
 import os
@@ -16,7 +17,7 @@ from time import sleep
 
 def scrape_reviews(url):
 # make chrome log requests
-    desired_capabilities = DesiredCapabilities.FIREFOX
+    desired_capabilities = DesiredCapabilities.EDGE
     desired_capabilities["goog:loggingPrefs"] = {"performance": "ALL"}  # newer: goog:loggingPrefs
     options = webdriver.FirefoxOptions()
     # options = webdriver.FirefoxOptions()
@@ -30,7 +31,7 @@ def scrape_reviews(url):
     
     driver = webdriver.Firefox(
         # service = Service(ChromeDriverManager().install()),
-        service=Service(GeckoDriverManager().install()),
+        service=Service(EdgeChromiumDriverManager().install()),
         options=options,
         # desired_capabilities=desired_capabilities
     )
