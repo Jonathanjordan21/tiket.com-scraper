@@ -1,6 +1,15 @@
-# tiket.com-scraper
-tiket.com reviews scraper for educational purposes
+# Web Scrap Reviews Data from Tiket.com
 
 ## WARNING
-### Scraping on any website without permission is ilegall!
-### This is just a demo application, not intended for comercial purposes
+### Scraping on any website without permission is illegal!
+### This is just a demo application, not intended for commercial purposes
+
+
+## Tech stack / libraries :
+- streamlit
+- selenium
+- nltk
+- wordcloud
+- seaborn
+- matplotlib
+- pandas
