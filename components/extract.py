@@ -83,7 +83,7 @@ def scrape_reviews(url):
 
 def scrape_pages(dict_name, driver, l):
     try:
-        for n in range(1,l+1):
+        for n in range(2,l+1):
         
             if n == 7:
                 for page in driver.find_elements(By.XPATH, "//*[@class='Pagination_page_number__iJiI3 HcPVsG_text HcPVsG_size_b2 HcPVsG_weight_bold']"):
