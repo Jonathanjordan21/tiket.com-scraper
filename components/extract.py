@@ -32,7 +32,7 @@ def scrape_reviews(url):
     options.set_capability("goog:loggingPrefs", {"performance": "ALL"} )
     # options.set_capability("marionette", False)
     
-    driver = webdriver.ChromiumEdge(
+    driver = webdriver.Edge(
         # service = Service(ChromeDriverManager().install()),
         service=Service(EdgeChromiumDriverManager().install()),
         options=options,
