@@ -14,7 +14,7 @@ import json
 import os
 import shutil
 from selenium.common.exceptions import TimeoutException
-
+import pandas as pd
 from time import sleep
 
 
@@ -26,7 +26,7 @@ def scrape_reviews(url):
     # options = webdriver.FirefoxOptions()
     
     # Chrome will start in Headless mode
-    # options.add_argument('--headless')
+    options.add_argument('--headless')
 
     # Ignores any certificate errors if there is any
     options.add_argument("--ignore-certificate-errors")
@@ -138,7 +138,7 @@ def scrape_pages(dict_name, driver, l):
     finally :
         return n
     
-def scrape_one_page(dict_name, driver, n):
+def scrape_one_page(dict_name, driver, n, ll):
     
     if n == 7:
         for page in driver.find_elements(By.XPATH, "//*[@class='Pagination_page_number__iJiI3 HcPVsG_text HcPVsG_size_b2 HcPVsG_weight_bold']"):
@@ -179,8 +179,22 @@ def scrape_one_page(dict_name, driver, n):
         f_name = f"{n}-{i}.json"
         with open(os.path.join(dict_name,f_name), "w") as f:
             try :
-                data1 = json.loads(driver.execute_cdp_cmd("Network.getResponseBody", {"requestId": request_id})['body'])['data']
+                a = json.loads(driver.execute_cdp_cmd("Network.getResponseBody", {"requestId": request_id})['body'])['data']
                 f.write(json.dumps(driver.execute_cdp_cmd("Network.getResponseBody", {"requestId": request_id})['body']))
+                df = pd.DataFrame(a['userReviews']['content'])
+                df.dropna(inplace=True)
+
+                questionTitles += list(set([y['questionTitle'] for x in df['userReviewAnswers'].values for y in x ]))
+
+                for index, row in df['userReviewAnswers'].items():
+                    for k in row:
+                        key = k['questionTitle']
+                        col = k['answerInteger']
+                        df.at[index, f"Rating_{key}"] = col
+                        df.at[index, key] = k['answerString']
+
+                df_data = pd.concat([df_data, df], ignore_index=True)
+                ll.appen(df_data)
             except :
                 print("An error occur!")
     return n

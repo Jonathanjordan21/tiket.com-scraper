@@ -52,6 +52,8 @@ if 'opt' not in st.session_state:
 if 'hotel' not in st.session_state:
     st.session_state.hotel = []
 
+# if 'list_df' not in st.session_state:
+
 if 'cur_df' not in st.session_state:
     st.session_state.cur_df = pd.DataFrame()
 
@@ -75,6 +77,7 @@ if 'states' not in st.session_state:
 
 if st.button(label="Download Reviews Data"):
     st.write("Extracting data...")
+    ll = []
     dict_name, driver,total_reviews, total_pages = extract.scrape_reviews(url)
     st.session_state.hotel.append(dict_name)
     # st.progress(st.session_state.extract_progress, f'{st.session_state.extract_progress*100}%')
@@ -87,13 +90,15 @@ if st.button(label="Download Reviews Data"):
     m=0
     try :
         for n in range(1,total_pages+1):
-            m = extract.scrape_one_page(dict_name, driver, n)
+            m = extract.scrape_one_page(dict_name, driver, n,ll)
             bar.progress(m/total_pages)
     except Exception as e:
         # print("Timeout!")
         st.write(e)
         st.write("The operation cancelled on the way!")
     n_data = m*5
+    st.session_state.cur_df = pd.concat(ll)
+    st.write(f"{st.session_state.cur_df.shape}")
     # n_data = extract.scrape_pages(f_name, driver)
     if n_data < total_reviews:
         st.write("Oops! the operation might be corrupted!")
