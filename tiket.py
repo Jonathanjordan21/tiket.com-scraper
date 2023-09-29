@@ -2,7 +2,14 @@ import streamlit as st
 import pandas as pd
 from datetime import datetime
 from components import extract, load, transform, visualize
+import os
 
+@st.cache_resouce
+def installff():
+    os.system('sbase install geckodriver')
+    os.system('ln -s /home/appuser/venv/lib/python3.7/site-packages/seleniumbase/drivers/geckodriver /home/appuser/venv/bin/geckodriver')
+
+_ = installff()
 
 st.title("Reviews Analyzer (tiket.com)")
 st.divider()
