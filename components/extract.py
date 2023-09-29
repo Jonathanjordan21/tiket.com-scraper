@@ -158,6 +158,7 @@ def scrape_one_page(dict_name, driver, n):
     for page in WebDriverWait(driver,12).until(page_btn):
         try :
             if int(page.text) == n:
+                sleep(5)
                 page.click()
                 print(f"page {n} clicked!")
                 break
