@@ -167,7 +167,7 @@ def scrape_one_page(dict_name, driver, n):
         
     page_btn = EC.presence_of_all_elements_located((By.XPATH, "//*[@class='Pagination_page_number__iJiI3 HcPVsG_text HcPVsG_size_b2 HcPVsG_weight_bold']"))
 
-    for page in WebDriverWait(driver,12).until(page_btn):
+    for page in WebDriverWait(driver,21).until(page_btn):
         try :
             if int(page.text) == n:
                 # sleep(5)
@@ -175,7 +175,7 @@ def scrape_one_page(dict_name, driver, n):
                     ActionChains(driver).move_to_element(page).perform()
                 except :
                     print('target out of boundS!')
-                print("CLLLLLALA")
+                # print("CLLLLLALA")
                 try :
                     driver.execute_script("arguments[0].click();", page)
                 except:
