@@ -154,7 +154,8 @@ def scrape_one_page(dict_name, driver, n):
                 driver.execute_script("arguments[0].click();", page)
                 break
         print("kndamldnak")
-        driver.execute_script("arguments[0].click();", driver.find_element(By.XPATH, "//*[@class='Pagination_page_number__iJiI3']"))
+        for page in driver.find_elements(By.XPATH, "//*[@class='Pagination_page_number__iJiI3']"):
+            driver.execute_script("arguments[0].click();", page)
             # sleep(10)
             # page.click()
             # break
