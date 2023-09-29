@@ -151,7 +151,7 @@ def scrape_one_page(dict_name, driver, n):
                     print("Target Out of Bound!")
                 # print('yoauw')
                 
-                page.click()
+                driver.execute_script("arguments[0].click();", page)
                 break
         print("kndamldnak")
         WebDriverWait(driver,21).until(EC.element_to_be_clickable((By.XPATH, "//*[@class='Pagination_page_number__iJiI3']"))).click()
@@ -171,7 +171,7 @@ def scrape_one_page(dict_name, driver, n):
                     print('target out of boundS!')
                 print("CLLLLLALA")
                 try :
-                    page.click()
+                    driver.execute_script("arguments[0].click();", page)
                 except:
                     print("UNCLICKABLE!")
                 print(f"page {n} clicked!")
