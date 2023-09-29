@@ -21,10 +21,6 @@ import os
 
 # _ = installff()
 
-st.set_page_config(
-    browser="firefox"
-)
-
 st.title("Reviews Analyzer (tiket.com)")
 st.divider()
 st.markdown("""<div style="text-align: center;">

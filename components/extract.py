@@ -31,6 +31,10 @@ def scrape_reviews(url):
     # Ignores any certificate errors if there is any
     options.add_argument("--ignore-certificate-errors")
     options.set_capability("goog:loggingPrefs", {"performance": "ALL"} )
+    options.set_capability("goog:loggingPerfs", {'browser': 'ALL'})
+    options.set_capability("goog:loggingPerfs", {'client': 'ALL'})
+    options.set_capability("goog:loggingPerfs", {'driver': 'ALL'})
+    options.set_capability("goog:loggingPerfs",{'server': 'ALL'})
     options.log.level = "trace"
     # options.set_capability("moz:firefoxOptions", {"log": {"level": "trace"}})
     # options.set_capability("marionette", False)
