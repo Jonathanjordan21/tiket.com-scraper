@@ -151,13 +151,13 @@ def scrape_one_page(dict_name, driver, n):
                     print("Target Out of Bound!")
                 # print('yoauw')
                 
-                driver.execute_script("arguments[0].click();", page.find_element(By.XPATH, ".."))
+                driver.execute_script("arguments[0].click();", page)
                 break
         print("kndamldnak")
         for nmn in WebDriverWait(driver,21).until(EC.presence_of_all_elements_located((By.XPATH, "//*[contains(@class, 'Pagination_page_number__iJiI3')]"))):
             print(nmn.text)
             if nmn.text == '':
-                driver.execute_script("arguments[0].click();", nmn)
+                driver.execute_script("arguments[0].click();", nmn.find_element(By.XPATH, ".."))
             else :
                 print("LAMAO")
             # sleep(10)
