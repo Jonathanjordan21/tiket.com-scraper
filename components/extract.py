@@ -2,6 +2,7 @@ from selenium import webdriver
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.common.action_chains import ActionChains
 # from selenium.webdriver.firefox.service import Service
 # from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.support.ui import WebDriverWait
@@ -158,7 +159,8 @@ def scrape_one_page(dict_name, driver, n):
     for page in WebDriverWait(driver,12).until(page_btn):
         try :
             if int(page.text) == n:
-                sleep(5)
+                # sleep(5)
+                ActionChains(driver).move_to_element(page).perform()
                 page.click()
                 print(f"page {n} clicked!")
                 break
