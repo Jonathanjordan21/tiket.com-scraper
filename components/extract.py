@@ -88,9 +88,11 @@ def scrape_pages(dict_name, driver, l):
             if n == 7:
                 for page in driver.find_elements(By.XPATH, "//*[@class='Pagination_page_number__iJiI3 HcPVsG_text HcPVsG_size_b2 HcPVsG_weight_bold']"):
                     if int(page.text) == 1:
+                        sleep(3)
                         page.click()
                         break
                 for page in driver.find_elements(By.XPATH, "//*[@class='Pagination_page_number__iJiI3']"):
+                    sleep(3)
                     page.click()
                 
             page_btn = EC.presence_of_all_elements_located((By.XPATH, "//*[@class='Pagination_page_number__iJiI3 HcPVsG_text HcPVsG_size_b2 HcPVsG_weight_bold']"))
