@@ -1,8 +1,8 @@
 from selenium import webdriver
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from selenium.webdriver.common.by import By
-# from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.firefox.service import Service
+from selenium.webdriver.chrome.service import Service
+# from selenium.webdriver.firefox.service import Service
 # from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.support.ui import WebDriverWait
 from webdriver_manager.chrome import ChromeDriverManager
@@ -20,9 +20,9 @@ from time import sleep
 
 def scrape_reviews(url):
 # make chrome log requests
-    desired_capabilities = DesiredCapabilities.FIREFOX
+    desired_capabilities = DesiredCapabilities.CHROME
     desired_capabilities["goog:loggingPrefs"] = {"performance": "ALL"}  # newer: goog:loggingPrefs
-    options = webdriver.FirefoxOptions()
+    options = webdriver.ChromeOptions()
     # options = webdriver.FirefoxOptions()
     
     # Chrome will start in Headless mode
@@ -39,9 +39,9 @@ def scrape_reviews(url):
     # options.set_capability("moz:firefoxOptions", {"log": {"level": "trace"}})
     # options.set_capability("marionette", False)
     
-    driver = webdriver.Firefox(
+    driver = webdriver.Chrome(
         # service = Service(ChromeDriverManager().install()),
-        service=Service(GeckoDriverManager().install()),
+        service=Service(ChromeDriverManager().install()),
         options=options,
         # desired_capabilities=desired_capabilities
     )
