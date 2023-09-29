@@ -4,8 +4,10 @@ from datetime import datetime
 from components import extract, load, transform, visualize
 import os
 
-# @st.cache_resource
-# def installff():
+@st.cache_resource
+def installff():
+    os.system('curl https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb')
+    os.system('dpkg -i google-chrome-stable_current_amd64.deb')
 #     # os.system('!wget https://chromedriver.storage.googleapis.com/2.46/chromedriver_linux64.zip')
 #     # os.system('!unzip chromedriver_linux64.zip')
 #     # os.system('chmod +x chromedriver')
@@ -17,7 +19,7 @@ import os
 #     # # os.system('sbase get chromedriver latest-1')
 #     # os.system('ln -s /home/appuser/venv/lib/python3.7/site-packages/seleniumbase/drivers/chromedriver /home/appuser/venv/bin/chromedriver')
 
-# _ = installff()
+_ = installff()
 
 st.title("Reviews Analyzer (tiket.com)")
 st.divider()
