@@ -154,10 +154,10 @@ def scrape_one_page(dict_name, driver, n):
                 driver.execute_script("arguments[0].click();", page)
                 break
         print("kndamldnak")
-        for page in WebDriverWait(driver,21).until(EC.presence_of_all_elements_located((By.XPATH, "//*[contains(@class, 'Pagination_page_number__iJiI3')]"))):
-            print(page.text)
-            if page.text == '':
-                driver.execute_script("arguments[0].click();", page)
+        for nmn in WebDriverWait(driver,21).until(EC.presence_of_all_elements_located((By.XPATH, "//*[contains(@class, 'Pagination_page_number__iJiI3')]"))):
+            print(nmn.text)
+            if nmn.text == '':
+                driver.execute_script("arguments[0].click();", nmn)
             else :
                 print("LAMAO")
             # sleep(10)
