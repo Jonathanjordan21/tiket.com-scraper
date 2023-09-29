@@ -2,8 +2,8 @@ from selenium import webdriver
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from selenium.webdriver.common.by import By
 # from selenium.webdriver.chrome.service import Service
-# from selenium.webdriver.firefox.service import Service
-from selenium.webdriver.chromium.service import Service
+from selenium.webdriver.firefox.service import Service
+# from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.support.ui import WebDriverWait
 from webdriver_manager.chrome import ChromeDriverManager
 from webdriver_manager.firefox import GeckoDriverManager
@@ -20,7 +20,7 @@ from time import sleep
 
 def scrape_reviews(url):
 # make chrome log requests
-    desired_capabilities = DesiredCapabilities.EDGE
+    desired_capabilities = DesiredCapabilities.FIREFOX
     desired_capabilities["goog:loggingPrefs"] = {"performance": "ALL"}  # newer: goog:loggingPrefs
     options = webdriver.EdgeOptions()
     # options = webdriver.FirefoxOptions()
@@ -31,11 +31,13 @@ def scrape_reviews(url):
     # Ignores any certificate errors if there is any
     options.add_argument("--ignore-certificate-errors")
     options.set_capability("goog:loggingPrefs", {"performance": "ALL"} )
+    options.log.level = "trace"
+    # options.set_capability("moz:firefoxOptions", {"log": {"level": "trace"}})
     # options.set_capability("marionette", False)
     
-    driver = webdriver.ChromiumEdge(
+    driver = webdriver.Firefox(
         # service = Service(ChromeDriverManager().install()),
-        service=Service(EdgeChromiumDriverManager().install()),
+        service=Service(GeckoDriverManager().install()),
         options=options,
         # desired_capabilities=desired_capabilities
     )
