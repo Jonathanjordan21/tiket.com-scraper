@@ -194,7 +194,7 @@ def scrape_one_page(dict_name, driver, n, ll):
                         df.at[index, key] = k['answerString']
 
                 df_data = pd.concat([df_data, df], ignore_index=True)
-                ll.appen(df_data)
+                ll.append(df_data)
             except :
                 print("An error occur!")
     return n
