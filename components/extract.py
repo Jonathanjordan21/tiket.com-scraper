@@ -28,6 +28,7 @@ def scrape_reviews(url):
     # Ignores any certificate errors if there is any
     options.add_argument("--ignore-certificate-errors")
     options.set_capability("goog:loggingPrefs", {"performance": "ALL"} )
+    options.set_capability("marionette", False)
     
     driver = webdriver.ChromiumEdge(
         # service = Service(ChromeDriverManager().install()),
