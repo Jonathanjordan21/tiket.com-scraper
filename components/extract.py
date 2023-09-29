@@ -138,7 +138,7 @@ def scrape_pages(dict_name, driver, l):
     finally :
         return n
     
-def scrape_one_page(dict_name, driver, n, ll):
+def scrape_one_page(dict_name, driver, n):
     
     if n == 7:
         for page in driver.find_elements(By.XPATH, "//*[@class='Pagination_page_number__iJiI3 HcPVsG_text HcPVsG_size_b2 HcPVsG_weight_bold']"):
@@ -181,20 +181,6 @@ def scrape_one_page(dict_name, driver, n, ll):
             try :
                 a = json.loads(driver.execute_cdp_cmd("Network.getResponseBody", {"requestId": request_id})['body'])['data']
                 f.write(json.dumps(driver.execute_cdp_cmd("Network.getResponseBody", {"requestId": request_id})['body']))
-                df = pd.DataFrame(a['userReviews']['content'])
-                df.dropna(inplace=True)
-
-                questionTitles += list(set([y['questionTitle'] for x in df['userReviewAnswers'].values for y in x ]))
-
-                for index, row in df['userReviewAnswers'].items():
-                    for k in row:
-                        key = k['questionTitle']
-                        col = k['answerInteger']
-                        df.at[index, f"Rating_{key}"] = col
-                        df.at[index, key] = k['answerString']
-
-                df_data = pd.concat([df_data, df], ignore_index=True)
-                ll.append(df_data)
             except :
                 print("An error occur!")
     return n
