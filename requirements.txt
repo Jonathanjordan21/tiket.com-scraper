@@ -6,4 +6,4 @@ seaborn
 matplotlib
 pandas
 wordcloud
-seleniumbase
+# seleniumbase

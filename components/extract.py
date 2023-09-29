@@ -15,9 +15,9 @@ from time import sleep
 
 def scrape_reviews(url):
 # make chrome log requests
-    desired_capabilities = DesiredCapabilities.CHROME
+    desired_capabilities = DesiredCapabilities.FIREFOX
     desired_capabilities["goog:loggingPrefs"] = {"performance": "ALL"}  # newer: goog:loggingPrefs
-    options = webdriver.ChromeOptions()
+    options = webdriver.FirefoxOptions()
     # options = webdriver.FirefoxOptions()
     
     # Chrome will start in Headless mode
@@ -27,8 +27,8 @@ def scrape_reviews(url):
     options.add_argument("--ignore-certificate-errors")
     options.set_capability("goog:loggingPrefs", {"performance": "ALL"} )
     
-    driver = webdriver.Chrome(
-        service = Service(ChromeDriverManager().install()),
+    driver = webdriver.Firefox(
+        # service = Service(ChromeDriverManager().install()),
         
         options=options,
         # desired_capabilities=desired_capabilities
