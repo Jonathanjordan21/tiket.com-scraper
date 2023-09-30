@@ -27,7 +27,7 @@ def scrape_reviews(url):
     # options = webdriver.FirefoxOptions()
     
     # Chrome will start in Headless mode
-    options.add_argument('--headless')
+    # options.add_argument('--headless')
 
     # Ignores any certificate errors if there is any
     options.add_argument("--ignore-certificate-errors")
@@ -68,11 +68,20 @@ def scrape_reviews(url):
     total_reviews = int(driver.find_element(By.XPATH, "//*[@class='HcPVsG_text HcPVsG_variant_lowEmphasis HcPVsG_size_b3 HcPVsG_weight_regular']").text.split(" ")[1])
     print("total reviews:",total_reviews)
 
-    driver.find_element(By.XPATH, "//*[@class='Filter_desktop_filter_text__GQYAq HcPVsG_text HcPVsG_size_b2 HcPVsG_weight_regular']").click()
+    # driver.find_element(By.XPATH, "//*[@class='Filter_desktop_filter_text__GQYAq HcPVsG_text HcPVsG_size_b2 HcPVsG_weight_regular']").click()
+    for filt in driver.find_elements(By.XPATH,"//*[@class='zOEqrG_chip zOEqrG_size_default']"):
+        if filt.get_attribute("data-testid") == "sort-filter":
+            filt.click()
+            break
+        else :
+            print(filt.get_attribute("data-testid"))
     for sortby in WebDriverWait(driver,12).until(EC.presence_of_all_elements_located((By.XPATH, "//*[@class='CollapseComponent_filter_option_container__3akFB']"))):
         if sortby.text == 'Review Terbaru':
+            print("Good!", sortby.text)
             sortby.click()
             break
+        else :
+            print(sortby.text)
     
     dict_name = url.split('&')[2][13:]
     if os.path.exists(dict_name):  

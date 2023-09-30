@@ -34,10 +34,10 @@ def wordcloud(df_data, stop_words):
 
 def pie_chart(df):
 
-    h = df.groupby(['tripType']).count()['ratingSummary'].sort_values()
     fig, ax = plt.subplots(figsize=(12,12))
 
     try :
+        h = df.groupby(['tripType']).count()['ratingSummary'].sort_values()
         explode = [0]*len(h.index)
         explode[0] = 0.5
 
@@ -57,21 +57,23 @@ def pie_chart(df):
 
 def customer_count(df_data, year):
     # print(year)
-    df_data = df_data.sort_values('reviewDate')
-    df_data['month']=df_data.reviewDate.dt.month
-    print(df_data['month'].unique())
     fig, ax = plt.subplots(figsize=(12,12))
-    # print(df_data['month'].unique())
-    # unit = ['dec','jan','feb','mar','apr','may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec']
-    # val = {i:u for i,u in enumerate(unit)}
-    df_los = df_data[df_data.reviewDate.dt.year == int(year)].groupby('month')['lengthOfStay'].mean().round('D').reset_index()
-    # df_los['month'] = df_los.month.map(val)
-    df_los['lengthOfStay'] = df_los['lengthOfStay'].dt.days
-    # df_los = df_los.sort_values('')
-    # ax2.bar()
-    # sns.lineplot(data=df,x='reviewDate', y='ratingSummary', marker='o',ax=ax)
-    # ax2=ax.twinx()
     try :
+        df_data = df_data.sort_values('reviewDate')
+        df_data['month']=df_data.reviewDate.dt.month
+        # print(df_data['month'].unique())
+        
+        # print(df_data['month'].unique())
+        # unit = ['dec','jan','feb','mar','apr','may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec']
+        # val = {i:u for i,u in enumerate(unit)}
+        df_los = df_data[df_data.reviewDate.dt.year == int(year)].groupby('month')['lengthOfStay'].mean().round('D').reset_index()
+        # df_los['month'] = df_los.month.map(val)
+        df_los['lengthOfStay'] = df_los['lengthOfStay'].dt.days
+        # df_los = df_los.sort_values('')
+        # ax2.bar()
+        # sns.lineplot(data=df,x='reviewDate', y='ratingSummary', marker='o',ax=ax)
+        # ax2=ax.twinx()
+    
         sns.histplot(
             df_data[df_data.reviewDate.dt.year == int(year)], 
             # palette = sns.color_palette("ch:start=.2,rot=-.3"),
@@ -87,6 +89,7 @@ def customer_count(df_data, year):
         ax.set_xticks(xtick)
         ax.set_xticklabels(['jan','feb','mar','apr','may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'])
     except :
+        ax.axis('off')
         pass
     
     return fig, ax
@@ -140,6 +143,7 @@ def stay_review(df, year):
         ax2.get_legend().set_title("Trip Types")
         ax.get_legend().remove()
     except:
+        ax.axis('off')
         pass
     
     return fig,ax
