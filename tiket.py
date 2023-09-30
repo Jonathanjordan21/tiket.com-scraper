@@ -165,7 +165,7 @@ if st.button(label="Refresh Table"):
 
 
 def trip_type_pie(df):
-    st.header("Booking per Trip Types")
+    st.header("Bookings per Types of Visit")
     fig, ax = visualize.pie_chart(df)
     st.pyplot(fig)
 
@@ -234,7 +234,7 @@ if st.session_state.states:
         opts = list(st.session_state.cur_df['tripType'].unique())
         if 'trip' not in st.session_state:
             st.session_state.trip = list(opts)
-        trip = st.multiselect("Trip Type", options=opts, key="trip")
+        trip = st.multiselect("Types of Visit", options=opts, key="trip")
         
     with col3:
         st.text("Latest Review Date")
