@@ -87,10 +87,10 @@ def customer_count(df_data, year):
         sns.lineplot(data=df_los, x='month', y='lengthOfStay',color='blue',marker='o', ax=ax2)
         ax2.set_ylabel('Average Length of Stay', fontsize=16)
 
-        ax.get_legend().set_title("Bookings")
-        xtick = [x for x in range(1,13)]
+        ax.get_legend().set_title("Types of Visit")
+        # xtick = [x for x in range(1,13)]
         map_xtick = {i+1:u for i,u in enumerate(['Jan','Feb','Mar','Apr','May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'])}
-        print(ax.get_xticks())
+        # print(ax.get_xticks())
         ax.set_xticklabels([map_xtick.get(x) for x in ax.get_xticks()])
     except :
         ax.axis('off')
@@ -125,10 +125,8 @@ def rating_count(df_data, by):
             ax.plot(d['reviewDate'].values, d['ratingSummary'].values, marker='o')
 
         ax.axhline(df['ratingSummary'].mean(), color='grey', linestyle='dashed', label='Total Average')
-        h, l = ax.get_legend_handles_labels()
-        line_legend = Line2D([0],[0],color='green',linestyle='--', label='Total Average')
-        h.append(line_legend)
-        l.append('Total Average')
+        ax.legend(title="", fontsize=14)
+        
         ax.set_xlabel(by.capitalize()+'s', fontsize=16)
         ax.set_ylabel('Ratings', fontsize=16)
         ax.set_ylim((0,5.3))
@@ -169,12 +167,14 @@ def stay_review(df, year):
         
         # ax2.get_legend().set_title("(Blue) Rating")
         # ax.get_legend().set_title("(Red) Length Of Stay")
-        ax2.legend(fontsize=14,title = "Length of Stay", loc='upper center', bbox_to_anchor=(0.3,-0.05))
-        ax.legend(fontsize=14,title = "Rating", loc='upper center', bbox_to_anchor=(0.7,-0.05))
-
         ax.axvline(df_data['ratingSummary'].mean(), color='b', linestyle='dashed', label='Total Average Rating')
 
         ax2.axvline(df_data['day'].mean(), color='r', linestyle='dashed', label='Total Average Length of Stay')
+
+        ax2.legend(fontsize=14, loc='upper center', bbox_to_anchor=(0.3,-0.05)).set_title("Length of Stay", prop={'size':16})
+        ax.legend(fontsize=14, loc='upper center', bbox_to_anchor=(0.7,-0.05)).set_title("Ratings", prop={'size':16})
+
+        
         # ax2.get_legend().set_fontsize(14)
         # ax.get_legend().set_fontisize(14)
         
@@ -202,11 +202,11 @@ def trip_types(df):
             orient='h',left=baseline, palette=sns.color_palette('coolwarm')
         )
         
-        ax.axvline(baseline, color='green', linestyle='dashed', label='Total Average')
+        ax.axvline(baseline, color='green', linestyle='dashed', label='Total Average Rating')
 
         ax.set_xlabel('Ratings')
         ax.set_ylabel('Rating Types')
-        ax.legend(title="Types of Visit")
+        ax.legend(ncol=2).set_title("Types of Visit")
         
     except Exception as e:
         print(e)
