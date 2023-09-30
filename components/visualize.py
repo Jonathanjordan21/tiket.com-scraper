@@ -87,7 +87,7 @@ def customer_count(df_data, year):
         ax.get_legend().set_title("Trip Types")
         xtick = [x for x in range(1,13)]
         ax.set_xticks(xtick)
-        ax.set_xticklabels(['jan','feb','mar','apr','may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'])
+        ax.set_xticklabels(['Jan','Feb','Mar','Apr','May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'])
     except :
         ax.axis('off')
         pass
