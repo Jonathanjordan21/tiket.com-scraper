@@ -180,7 +180,7 @@ def customer_count_chart(df):
     st.header("Booking Frequency & Length of Stay")
     options = list(df.reviewDate.dt.year.unique().astype('str'))
     # print('a')
-    year = st.selectbox("Select Range", options=options, key='year')
+    year = st.selectbox("Select Year", options=options, key='year')
     # print('anto')
     fig,ax=visualize.customer_count(df, year)
     
@@ -191,7 +191,7 @@ def rating_chart(df):
     # def change_rating(op):
     option = ['date', 'month', 'year']
     # st.session_state.dates = option.index('date')
-    date = st.selectbox("Select Year", options=option, key='dates')
+    date = st.selectbox("Select Range", options=option, key='dates')
     # st.session_state.dates = date
     fig,ax = visualize.rating_count(df, date)
     st.pyplot(fig)

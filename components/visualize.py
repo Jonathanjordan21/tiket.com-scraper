@@ -107,13 +107,17 @@ def rating_count(df_data, by):
         plt.xticks(rotation=45)
     elif by == 'month':
         d = df.groupby(df.reviewDate.dt.month)['ratingSummary'].mean().reset_index()
+        # sns.lineplot(d, x='reviewDate', y='ratingSummary', hue=df.reviewDate.dt.year,markers='o')
         ax.plot(d['reviewDate'].values, d['ratingSummary'].values, marker='o')
+        # xtick = [x for x in range(1,13)]
+        map_xtick = {i:u for i,u in enumerate(['Jan','Feb','Mar','Apr','May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'])}
+        ax.set_xticklabels([map_xtick[x] for x in ax.get_xticks()])
     elif by == 'year':
         d = df.groupby(df.reviewDate.dt.year)['ratingSummary'].mean().reset_index()
         ax.plot(d['reviewDate'].values, d['ratingSummary'].values, marker='o')
 
-    ax.set_xlabel(by.capitalize()+'s')
-    ax.set_ylabel('Ratings')
+    ax.set_xlabel(by.capitalize()+'s', fontsize=16)
+    ax.set_ylabel('Ratings', fontsize=16)
     ax.set_ylim((0,5.3))
     
     return fig, ax
@@ -129,7 +133,7 @@ def stay_review(df, year):
         # print(df_data)
         df_pivot =df_data.pivot(index='month', columns='tripType', values='ratingSummary')#.sort_values()
         df_data2 = df[df.reviewDate.dt.year == int(year)].groupby(['month','tripType'])[['lengthOfStay']].mean().reset_index()
-        df_pivot2 =df_data2.pivot(index='month', columns='tripType', values='lengthOfStay')
+        # df_pivot2 =df_data2.pivot(index='month', columns='tripType', values='lengthOfStay')
         
         
         df_pivot.fillna(0, inplace=True)
@@ -140,8 +144,12 @@ def stay_review(df, year):
         sns.barplot(data=df_data, x='month', y='ratingSummary', hue="tripType", ax=ax2)
         ax2.set_ylabel("Average Ratings",fontsize=16)
         ax.set_xlabel("Month", fontsize=16)
+        map_xtick = {i:u for i,u in enumerate(['Jan','Feb','Mar','Apr','May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'])}
+        ax.set_xticklabels([map_xtick[x] for x in ax.get_xticks()])
+
         ax2.get_legend().set_title("Trip Types")
         ax.get_legend().remove()
+        
     except:
         ax.axis('off')
         pass
