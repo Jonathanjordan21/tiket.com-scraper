@@ -203,6 +203,10 @@ def trip_types(df):
         )
         
         ax.axvline(baseline, color='green', linestyle='dashed', label='Total Average')
+
+        ax.set_xlabel('Ratings')
+        ax.set_ylabel('Rating Types')
+        ax.legend(title="Types of Visit")
         
     except Exception as e:
         print(e)
