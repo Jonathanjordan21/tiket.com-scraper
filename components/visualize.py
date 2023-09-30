@@ -37,20 +37,23 @@ def pie_chart(df):
     h = df.groupby(['tripType']).count()['ratingSummary'].sort_values()
     fig, ax = plt.subplots(figsize=(12,12))
 
-    explode = [0]*len(h.index)
-    explode[0] = 0.5
+    try :
+        explode = [0]*len(h.index)
+        explode[0] = 0.5
 
-    return fig, ax.pie(
-        h, 
-        # autopct='%1.2f%%',
-        labels=h.index,
-        shadow = True,
-        explode=explode,
-        autopct = lambda p : f'{round(p*sum(h)/100)}',
-        colors = sns.color_palette("Blues"),
-        wedgeprops={'linewidth':5.0, 'edgecolor':'white'},
-        textprops={'fontsize':21}
-    )
+        return fig, ax.pie(
+            h, 
+            # autopct='%1.2f%%',
+            labels=h.index,
+            shadow = True,
+            explode=explode,
+            autopct = lambda p : f'{round(p*sum(h)/100)}',
+            colors = sns.color_palette("Blues"),
+            wedgeprops={'linewidth':5.0, 'edgecolor':'white'},
+            textprops={'fontsize':21}
+        )
+    except :
+        return fig,ax.axis('off')
 
 def customer_count(df_data, year):
     # print(year)
@@ -59,8 +62,8 @@ def customer_count(df_data, year):
     print(df_data['month'].unique())
     fig, ax = plt.subplots(figsize=(12,12))
     # print(df_data['month'].unique())
-    unit = ['dec','jan','feb','mar','apr','may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec']
-    val = {i:u for i,u in enumerate(unit)}
+    # unit = ['dec','jan','feb','mar','apr','may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec']
+    # val = {i:u for i,u in enumerate(unit)}
     df_los = df_data[df_data.reviewDate.dt.year == int(year)].groupby('month')['lengthOfStay'].mean().round('D').reset_index()
     # df_los['month'] = df_los.month.map(val)
     df_los['lengthOfStay'] = df_los['lengthOfStay'].dt.days
@@ -68,17 +71,23 @@ def customer_count(df_data, year):
     # ax2.bar()
     # sns.lineplot(data=df,x='reviewDate', y='ratingSummary', marker='o',ax=ax)
     # ax2=ax.twinx()
-    sns.histplot(
-        df_data[df_data.reviewDate.dt.year == int(year)], 
-        # palette = sns.color_palette("ch:start=.2,rot=-.3"),
-        x='month',hue='tripType', multiple='stack', alpha=0.5,ax=ax)
-    ax.set_ylabel('Booking Frequency', fontsize=16)
-    ax.set_xlabel('Month', fontsize=16)
-    ax2=ax.twinx()
-    sns.lineplot(data=df_los, x='month', y='lengthOfStay',color='blue',marker='o', ax=ax2)
-    ax2.set_ylabel('Average Length of Stay', fontsize=16)
+    try :
+        sns.histplot(
+            df_data[df_data.reviewDate.dt.year == int(year)], 
+            # palette = sns.color_palette("ch:start=.2,rot=-.3"),
+            x='month',hue='tripType', multiple='stack', alpha=0.5,ax=ax)
+        ax.set_ylabel('Booking Frequency', fontsize=16)
+        ax.set_xlabel('Month', fontsize=16)
+        ax2=ax.twinx()
+        sns.lineplot(data=df_los, x='month', y='lengthOfStay',color='blue',marker='o', ax=ax2)
+        ax2.set_ylabel('Average Length of Stay', fontsize=16)
 
-    ax.get_legend().set_title("Trip Types")
+        ax.get_legend().set_title("Trip Types")
+        xtick = [x for x in range(1,13)]
+        ax.set_xticks(xtick)
+        ax.set_xticklabels(['jan','feb','mar','apr','may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'])
+    except :
+        pass
     
     return fig, ax
 
@@ -112,33 +121,26 @@ def stay_review(df, year):
     fig, ax = plt.subplots(figsize=(15,12))
     df['month'] = df['reviewDate'].dt.month
     df['day'] = df.lengthOfStay.dt.days
-    df_data = df[df.reviewDate.dt.year == int(year)].groupby(['month','tripType'])[['ratingSummary','day']].mean().reset_index()#.set_index('month')
-    # print(df_data)
-    df_pivot =df_data.pivot(index='month', columns='tripType', values='ratingSummary')#.sort_values()
-    df_data2 = df[df.reviewDate.dt.year == int(year)].groupby(['month','tripType'])[['lengthOfStay']].mean().reset_index()
-    df_pivot2 =df_data2.pivot(index='month', columns='tripType', values='lengthOfStay')
-    print(df_data2)
-    print(df_pivot2)
-    # fig, ax = plt.subplot(figsize=(12,12))
-    # print(df_pivot)
-    # df_data = df[df.reviewDate.dt.year == int(year)].groupby(['month'])['lengthOfStay'].mean().reset_index()#.set_index('month')
-    # df_data = df_data.sort_values('month')
-    # ax.plot(df_data['month'],df_data['lengthOfStay'], 'go-')
-    # # sns.lineplot(data=df_data, x='month', y='lengthOfStay',color='blue',marker='o', ax=ax)
-    # ax.set_xticks(range(1,13))
-    # ax.set_xticklabels(range(1,13))
-    print(df_pivot2)
-    # ax.set_xlim(1,12)
-    print(df_pivot)
-    df_pivot.fillna(0, inplace=True)
-    # df_pivot.plot(kind='bar', stacked=True, ax=ax, position=np.arange(len(df_pivot.index)))
-    sns.barplot(data=df_data, x='month', y='day', hue="tripType", ax=ax)
-    ax.set_ylabel("Days of Stay",fontsize=16)
-    ax2 = ax.twinx()
-    sns.barplot(data=df_data, x='month', y='ratingSummary', hue="tripType", ax=ax2)
-    ax2.set_ylabel("Ratings",fontsize=16)
-    ax.set_xlabel("Month", fontsize=16)
-    ax2.get_legend().set_title("Trip Types")
+    try :
+        df_data = df[df.reviewDate.dt.year == int(year)].groupby(['month','tripType'])[['ratingSummary','day']].mean().reset_index()#.set_index('month')
+        # print(df_data)
+        df_pivot =df_data.pivot(index='month', columns='tripType', values='ratingSummary')#.sort_values()
+        df_data2 = df[df.reviewDate.dt.year == int(year)].groupby(['month','tripType'])[['lengthOfStay']].mean().reset_index()
+        df_pivot2 =df_data2.pivot(index='month', columns='tripType', values='lengthOfStay')
+        
+        
+        df_pivot.fillna(0, inplace=True)
+        # df_pivot.plot(kind='bar', stacked=True, ax=ax, position=np.arange(len(df_pivot.index)))
+        sns.barplot(data=df_data, x='month', y='day', hue="tripType", ax=ax)
+        ax.set_ylabel("Average Days of Stay",fontsize=16)
+        ax2 = ax.twinx()
+        sns.barplot(data=df_data, x='month', y='ratingSummary', hue="tripType", ax=ax2)
+        ax2.set_ylabel("Average Ratings",fontsize=16)
+        ax.set_xlabel("Month", fontsize=16)
+        ax2.get_legend().set_title("Trip Types")
+        ax.get_legend().remove()
+    except:
+        pass
     
     return fig,ax
 
