@@ -121,9 +121,10 @@ if st.button(label="Extract Reviews Data"):
 
 def change_hotel():
     st.write("Loading data...")
-    cur_df, st.session_state.cur_questions = load.load_data(data_name)
+    cur_df, questions = load.load_data(data_name)
     st.write("Cleaning data...")
-    st.session_state.cur_df = transform.clean_data(cur_df, st.session_state.cur_questions)
+    st.session_state.cur_df, st.session_state.cur_questions = transform.clean_data(cur_df, questions)
+    # st.session_state.cur_questions = [x.replace('Rating_') for x in st.session_state.cur_questions]
     st.write("Done!")
     st.session_state.states = True
 
@@ -146,9 +147,10 @@ data_name = st.selectbox(
 if st.button(label="Refresh Table"):
     # print(opt)
     st.write("Loading data...")
-    cur_df, st.session_state.cur_questions = load.load_data(data_name)
+    cur_df, questions = load.load_data(data_name)
     st.write("Cleaning data...")
-    st.session_state.cur_df = transform.clean_data(cur_df, st.session_state.cur_questions)
+    st.session_state.cur_df, st.session_state.cur_questions = transform.clean_data(cur_df, questions)
+    # st.session_state.cur_questions = [x.replace('Rating_') for x in st.session_state.cur_questions]
     st.write("Done!")
     
     st.session_state.states = True
@@ -201,9 +203,14 @@ def los_review(df):
     options = list(df.reviewDate.dt.year.unique().astype('str'))
     if 'year2' not in st.session_state:
         st.session_state.year2 = str(datetime.now().year)
-    year = st.selectbox("Select Range", options=options, key='year2')
+    year = st.selectbox("Select Year", options=options, key='year2')
     fig, ax = visualize.stay_review(df, year)
 
+    st.pyplot(fig)
+
+def trip_types_chart(df):
+    st.header('Rating Details')
+    fig, ax = visualize.trip_types(df)
     st.pyplot(fig)
 
 
@@ -251,6 +258,9 @@ if st.session_state.states:
     customer_count_chart(df)
     los_review(df)
     rating_chart(df)
+    trip_types_chart(df)
+
+
     
 
 

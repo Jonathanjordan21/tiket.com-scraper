@@ -14,11 +14,12 @@ def clean_data(df, questionTitles):
     except:
         print("Data does not complete : tripType Missing!")
     df.dropna(axis=1, how='all', inplace=True)
-    return df.drop_duplicates('submitId').drop(columns='submitId')
+
+    return df.drop_duplicates('submitId').drop(columns='submitId'), [x for x in df.columns if 'Rating_' in x]
     # df.drop(columns=['comments'], inplace=True)
 
 def filter_df(df,rating,trips, date_start, date_end, stay):
-    print(rating, trips, date_start, date_end)
+    # print(rating, trips, date_start, date_end)
     p = df[
         (df['ratingSummary'] <= rating[1]) & (df['ratingSummary']>=rating[0])&
         (df['reviewDate'].dt.date <= date_end) & (df['reviewDate'].dt.date>=date_start)&
