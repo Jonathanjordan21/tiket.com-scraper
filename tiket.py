@@ -40,7 +40,7 @@ Please read the robots.txt in tiket.com for further information</p></div>
 url = st.text_input("Tiket.com Reviews Url")
 st.text("Example : https://www.tiket.com/review?product_type=TIXHOTEL&searchType=INVENTORY&inventory_id=neo-denpasar-108001534490316188&reviewSubmitColumn=RATING_SUMMARY&hideToolbar=null")
 st.markdown("""<div style="text-align: center;">
-<p style="color:yellow;">Note : Extracting data may fail due to page redirection</p></div>
+<p style="color:yellow;">Note : Extracting data often fail due to page redirection</p></div>
 """, unsafe_allow_html=True)
 oo = []
 # opt = (f_name)
@@ -101,7 +101,7 @@ if st.button(label="Extract Reviews Data"):
             bar.progress(m/total_pages)
     except Exception as e:
         # print("Timeout!")
-        st.write(e)
+        # st.write(e)
         st.write("The operation cancelled on the way!")
     n_data = m*5
 
@@ -135,7 +135,7 @@ def change_hotel():
     )
 
 data_name = st.selectbox(
-    label="Choose Downloaded Review Data",
+    label="Choose Review Data",
     options=set(st.session_state.hotel),
     on_change=change_hotel
 )

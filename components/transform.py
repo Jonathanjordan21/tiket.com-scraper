@@ -8,8 +8,11 @@ def clean_data(df, questionTitles):
     df['ratingSummary'] = df['ratingSummary'].astype('float32')
     df['comments'] = df['comments'].apply(lambda x: x[0]['value'])
     df['lengthOfStay'] = df['endJourney'] - df['startJourney']
-    df.rename(columns={'Saat nginep di sini, apa jenis perjalananmu?':'tripType'}, inplace=True)
-    df['tripType'].fillna('Tidak Jawab', inplace=True)
+    try :
+        df.rename(columns={'Saat nginep di sini, apa jenis perjalananmu?':'tripType'}, inplace=True)
+        df['tripType'].fillna('Tidak Jawab', inplace=True)
+    except:
+        print("Data does not complete : tripType Missing!")
     df.dropna(axis=1, how='all', inplace=True)
     return df.drop_duplicates('submitId').drop(columns='submitId')
     # df.drop(columns=['comments'], inplace=True)
