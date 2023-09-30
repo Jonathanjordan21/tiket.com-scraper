@@ -27,6 +27,8 @@ def installff():
 
 _ = installff()
 
+
+
 st.title("Reviews Analyzer (tiket.com)")
 st.divider()
 st.markdown("""<div style="text-align: center;">
@@ -37,7 +39,9 @@ Please read the robots.txt in tiket.com for further information</p></div>
 """, unsafe_allow_html=True)
 url = st.text_input("Tiket.com Reviews Url")
 st.text("Example : https://www.tiket.com/review?product_type=TIXHOTEL&searchType=INVENTORY&inventory_id=neo-denpasar-108001534490316188&reviewSubmitColumn=RATING_SUMMARY&hideToolbar=null")
-
+st.markdown("""<div style="text-align: center;">
+<p style="color:yellow;">Note : Extracting data may fail due to page redirection</p></div>
+""", unsafe_allow_html=True)
 oo = []
 # opt = (f_name)
 opt = {}
@@ -75,7 +79,11 @@ if 'dates' not in st.session_state:
 if 'states' not in st.session_state:
     st.session_state.states = False
 
-if st.button(label="Download Reviews Data"):
+@st.cache
+def convert_df(df):
+    return df.to_csv().encode('utf-8')
+
+if st.button(label="Extract Reviews Data"):
     st.write("Extracting data...")
     dict_name, driver,total_reviews, total_pages = extract.scrape_reviews(url.strip())
     st.session_state.hotel.append(dict_name)
@@ -119,6 +127,13 @@ def change_hotel():
     st.write("Done!")
     st.session_state.states = True
 
+    st.download_button(
+        label="Download data csv",
+        data=convert_df(st.session_state.cur_df),
+        file_name=f'{dict_name}.csv',
+        mime='text_csv'
+    )
+
 data_name = st.selectbox(
     label="Choose Downloaded Review Data",
     options=set(st.session_state.hotel),
@@ -137,6 +152,13 @@ if st.button(label="Refresh Table"):
     st.write("Done!")
     
     st.session_state.states = True
+
+    st.download_button(
+        label="Download data csv",
+        data=convert_df(st.session_state.cur_df),
+        file_name=f'{dict_name}.csv',
+        mime='text_csv'
+    )
 
 
 
