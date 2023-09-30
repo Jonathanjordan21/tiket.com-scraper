@@ -79,7 +79,7 @@ if 'dates' not in st.session_state:
 if 'states' not in st.session_state:
     st.session_state.states = False
 
-@st.cache
+@st.cache_resource
 def convert_df(df):
     return df.to_csv().encode('utf-8')
 
@@ -130,7 +130,7 @@ def change_hotel():
     st.download_button(
         label="Download data csv",
         data=convert_df(st.session_state.cur_df),
-        file_name=f'{dict_name}.csv',
+        file_name=f'{data_name}.csv',
         mime='text_csv'
     )
 
@@ -156,7 +156,7 @@ if st.button(label="Refresh Table"):
     st.download_button(
         label="Download data csv",
         data=convert_df(st.session_state.cur_df),
-        file_name=f'{dict_name}.csv',
+        file_name=f'{data_name}.csv',
         mime='text_csv'
     )
 
