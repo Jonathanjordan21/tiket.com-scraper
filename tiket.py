@@ -79,45 +79,60 @@ if 'dates' not in st.session_state:
 if 'states' not in st.session_state:
     st.session_state.states = False
 
+if 'disabled' not in st.session_state:
+    st.session_state.disabled = True
+
+if 'dis' not in st.session_state:
+    st.session_state.dis = False
+
 @st.cache_resource
 def convert_df(df):
     return df.to_csv().encode('utf-8')
 
-if st.button(label="Extract Reviews Data"):
-    st.write("Extracting data...")
-    dict_name, driver,total_reviews, total_pages = extract.scrape_reviews(url.strip())
-    st.session_state.hotel.append(dict_name)
-    # st.progress(st.session_state.extract_progress, f'{st.session_state.extract_progress*100}%')
-    # st.write("Done!")for n in range(1,l+1):
-    # ns = extract.
-    # for x in extract.scrape_pages(dict_name, driver, total_pages):
-        # st.session_state.extract_progress+=100/total_pages
-    #     n_data = x
-    bar = st.progress(0)
-    m=0
-    try :
-        for n in range(1,total_pages+1):
-            m = extract.scrape_one_page(dict_name, driver, n)
-            bar.progress(m/total_pages)
-    except Exception as e:
-        # print("Timeout!")
-        # st.write(e)
-        st.write("The operation cancelled on the way!")
-    n_data = m*5
+if st.button(label="Extract Reviews Data", disabled=st.session_state.get('dis',True)):
+    if url != "":
+        st.write("Extracting data...")
+        try :
+            st.session_state.dis = True
+            dict_name, driver,total_reviews, total_pages = extract.scrape_reviews(url.strip())
+            st.session_state.hotel.append(dict_name)
+            # st.progress(st.session_state.extract_progress, f'{st.session_state.extract_progress*100}%')
+            # st.write("Done!")for n in range(1,l+1):
+            # ns = extract.
+            # for x in extract.scrape_pages(dict_name, driver, total_pages):
+                # st.session_state.extract_progress+=100/total_pages
+            #     n_data = x
+            st.session_state.disabled = False
+            bar = st.progress(0)
+            m=0
+            try :
+                for n in range(1,total_pages+1):
+                    m = extract.scrape_one_page(dict_name, driver, n)
+                    bar.progress(m/total_pages)
+            except Exception as e:
+                # print("Timeout!")
+                # st.write(e)
+                st.write("The operation cancelled on the way!")
+            n_data = m*5
+            st.session_state.dis = False
 
-    # n_data = extract.scrape_pages(f_name, driver)
-    if n_data < total_reviews:
-        st.write("Oops! the operation might be corrupted!")
-        st.write(f"You have sucessfully downloaded {n_data} reviews out of {total_reviews}")
-        st.write(f"If you're not fine with this, please re-download the review data")
+            # n_data = extract.scrape_pages(f_name, driver)
+            if n_data < total_reviews:
+                st.write("Oops! the operation might be corrupted!")
+                st.write(f"You have sucessfully downloaded {n_data} reviews out of {total_reviews}")
+                st.write(f"If you're not fine with this, please re-download the review data")
+            else :
+                st.write(f"Congratulations! You have sucessfully downloaded {total_reviews} reviews out of {total_reviews}")
+            driver.quit()
+
+        except :
+            st.session_state.dis = False
+            st.write("Oops! Something's Wrong! Please check the url")
     else :
-        st.write(f"Congratulations! You have sucessfully downloaded {n_data} reviews out of {total_reviews}")
-    driver.quit()
-    
+        st.session_state.dis = False
+        st.write("The Url Link is Empty!")
 
-    # st.session_state.opt[f_name] = df
-    
-    # print(oo)
+
 
 def change_hotel():
     st.write("Loading data...")
@@ -141,26 +156,27 @@ data_name = st.selectbox(
     on_change=change_hotel
 )
 
-    
-   
 
-if st.button(label="Refresh Table"):
+if st.button(label="Refresh Table", disabled=st.session_state.get('disabled', True)):
     # print(opt)
     st.write("Loading data...")
-    cur_df, questions = load.load_data(data_name)
-    st.write("Cleaning data...")
-    st.session_state.cur_df, st.session_state.cur_questions = transform.clean_data(cur_df, questions)
-    # st.session_state.cur_questions = [x.replace('Rating_') for x in st.session_state.cur_questions]
-    st.write("Done!")
-    
-    st.session_state.states = True
+    try :
+        cur_df, questions = load.load_data(data_name)
+        st.write("Cleaning data...")
+        st.session_state.cur_df, st.session_state.cur_questions = transform.clean_data(cur_df, questions)
+        # st.session_state.cur_questions = [x.replace('Rating_') for x in st.session_state.cur_questions]
+        st.write("Done!")
+        
+        st.session_state.states = True
 
-    st.download_button(
-        label="Download data csv",
-        data=convert_df(st.session_state.cur_df),
-        file_name=f'{data_name}.csv',
-        mime='text_csv'
-    )
+        st.download_button(
+            label="Download data csv",
+            data=convert_df(st.session_state.cur_df),
+            file_name=f'{data_name}.csv',
+            mime='text_csv'
+        )
+    except:
+        st.write("Something Wrong! Please Re-Extract the Data")
 
 
 
