@@ -62,14 +62,15 @@ def customer_count(df_data, year):
     # print(year)
     fig, ax = plt.subplots(figsize=(12,12))
     try :
-        df_data = df_data.sort_values('reviewDate')
-        df_data['month']=df_data.reviewDate.dt.month
+        df_data = df_data.sort_values('startJourney')
+        df_data['month']=df_data.startJourney.dt.month
+        # df_data['year']=df_data.startJourney.dt.year
         # print(df_data['month'].unique())
         
         # print(df_data['month'].unique())
         # unit = ['dec','jan','feb','mar','apr','may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec']
         # val = {i:u for i,u in enumerate(unit)}
-        df_los = df_data[df_data.reviewDate.dt.year == int(year)].groupby('month')['lengthOfStay'].mean().round('D').reset_index()
+        df_los = df_data[df_data.startJourney.dt.year == int(year)].groupby('month')['lengthOfStay'].mean().round('D').reset_index()
         # df_los['month'] = df_los.month.map(val)
         df_los['lengthOfStay'] = df_los['lengthOfStay'].dt.days
         # df_los = df_los.sort_values('')
@@ -78,21 +79,27 @@ def customer_count(df_data, year):
         # ax2=ax.twinx()
     
         sns.histplot(
-            df_data[df_data.reviewDate.dt.year == int(year)], 
-            palette = "Set1",
+            df_data[df_data.startJourney.dt.year == int(year)], 
+            palette = "Set1", bins=12,
             x='month',hue='tripType', multiple='stack', alpha=0.5,ax=ax)
         ax.set_ylabel('Booking Frequency', fontsize=16)
         ax.set_xlabel('Month', fontsize=16)
         ax2=ax.twinx()
         sns.lineplot(data=df_los, x='month', y='lengthOfStay',color='blue',marker='o', ax=ax2)
         ax2.set_ylabel('Average Length of Stay', fontsize=16)
-
+        ax2.yaxis.label.set_color('blue')
+        ax2.yaxis.set_tick_params(color='blue')
+        for x in ax2.get_yticklabels():
+            x.set_color('blue')
         ax.get_legend().set_title("Types of Visit")
         # xtick = [x for x in range(1,13)]
+        ax2.spines['right'].set_color('blue')
         map_xtick = {i+1:u for i,u in enumerate(['Jan','Feb','Mar','Apr','May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'])}
         # print(ax.get_xticks())
+        ax.set_xticks([x for x in range(1,13)])
         ax.set_xticklabels([map_xtick.get(x) for x in ax.get_xticks()])
-    except :
+    except Exception as e:
+        print(e)
         ax.axis('off')
         pass
     
@@ -104,22 +111,32 @@ def rating_count(df_data, by):
     df = df_data.sort_values('reviewDate')
     # df['days']
     df['month']=df.reviewDate.dt.month
+    df['year'] = df.reviewDate.dt.year
+    print(df)
     try :
         if by == 'date':
             ax.plot(df['reviewDate'].values, df['ratingSummary'].values, marker='o')
             ax.xaxis.set_major_locator(mdates.MonthLocator(interval=1))
-            ax.xaxis.set_major_formatter(mdates.DateFormatter('%b %d'))
+            ax.xaxis.set_major_formatter(mdates.DateFormatter('%b %d %Y'))
             plt.xticks(rotation=45)
         elif by == 'month':
-            d = df.groupby(df.reviewDate.dt.month)['ratingSummary'].mean().reset_index()
+            d = df.groupby(
+                ['month', 'year']
+            )['ratingSummary'].mean().reset_index()
             # sns.lineplot(d, x='reviewDate', y='ratingSummary', hue=df.reviewDate.dt.year,markers='o')
-            ax.plot(d['reviewDate'].values, d['ratingSummary'].values, marker='o')
+            print(d)
+            ax.plot(
+                d.year.astype(str)+ '-' +d.month.astype(str), 
+                d['ratingSummary'].values, 
+                marker='o'
+            )
+            plt.xticks(rotation=45)
             # xtick = [x for x in range(1,13)]
-            try :
-                map_xtick = {i:u for i,u in enumerate(['Jan','Feb','Mar','Apr','May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'])}
-                ax.set_xticklabels([map_xtick.get(x) for x in ax.get_xticks()])
-            except :
-                pass
+            # try :
+            #     map_xtick = {i:u for i,u in enumerate(['Jan','Feb','Mar','Apr','May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'])}
+            #     ax.set_xticklabels([map_xtick.get(x) for x in ax.get_xticks()])
+            # except :
+            #     pass
         elif by == 'year':
             d = df.groupby(df.reviewDate.dt.year)['ratingSummary'].mean().reset_index()
             ax.plot(d['reviewDate'].values, d['ratingSummary'].values, marker='o')
@@ -130,7 +147,8 @@ def rating_count(df_data, by):
         ax.set_xlabel(by.capitalize()+'s', fontsize=16)
         ax.set_ylabel('Ratings', fontsize=16)
         ax.set_ylim((0,5.3))
-    except:
+    except Exception as e:
+        print(e)
         pass
     return fig, ax
 
@@ -158,6 +176,7 @@ def stay_review(df, year):
             bar.set_alpha(0.6)
         sns.barplot(data=df_data, x='day', y='month', hue="tripType", ax=ax2, orient='h', color='darkred')#, label='Length Of Stay')
         ax.set_xlabel("Average Ratings",fontsize=16)
+        
         ax2.set_xlabel("Average Days of Stay",fontsize=16)
         ax.set_ylabel("Month", fontsize=16)
         # ax2.yaxis().set_visible(False)
@@ -174,9 +193,15 @@ def stay_review(df, year):
         ax2.legend(fontsize=14, loc='upper center', bbox_to_anchor=(0.3,-0.05)).set_title("Length of Stay", prop={'size':16})
         ax.legend(fontsize=14, loc='upper center', bbox_to_anchor=(0.7,-0.05)).set_title("Ratings", prop={'size':16})
 
+        ax2.xaxis.label.set_color('red')
+        for x in ax2.get_xticklabels():
+            x.set_color('red')
+        ax.xaxis.label.set_color('blue')
+        for x in ax.get_xticklabels():
+            x.set_color('blue')
         
-        # ax2.get_legend().set_fontsize(14)
-        # ax.get_legend().set_fontisize(14)
+        ax2.spines['top'].set_color('red')
+        ax2.spines['bottom'].set_color('blue')
         
     except:
         ax.axis('off')

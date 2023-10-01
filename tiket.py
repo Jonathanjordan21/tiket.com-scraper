@@ -200,7 +200,7 @@ def wordcloud(df):
 
 def customer_count_chart(df):
     st.header("Booking Frequency & Length of Stay")
-    options = list(df.reviewDate.dt.year.unique().astype('str'))
+    options = list(df.startJourney.dt.year.unique().astype('str'))
     # print('a')
     year = st.selectbox("Select Year", options=options, key='year')
     # print('anto')
@@ -211,6 +211,10 @@ def customer_count_chart(df):
 def rating_chart(df):
     st.header("Average Ratings Overtime")
     # def change_rating(op):
+    # options = list(df.reviewDate.dt.year.unique().astype('str'))
+    # if 'year3' not in st.session_state:
+    #     st.session_state.year3 = str(datetime.now().year)
+    # year = st.selectbox("Select Year", options=options, key='year3')
     option = ['date', 'month', 'year']
     # st.session_state.dates = option.index('date')
     date = st.selectbox("Select Range", options=option, key='dates')
