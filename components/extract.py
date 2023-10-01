@@ -49,44 +49,47 @@ def scrape_reviews(url):
         # desired_capabilities=desired_capabilities
     )
 
-    # fetch a site that does xhr requests
-    # driver.get("https://www.tiket.com/review?product_type=TIXHOTEL&searchType=INVENTORY&inventory_id=infinity8-bali-506001655965152937&reviewSubmitColumn=RATING_SUMMARY&hideToolbar=null")
-    driver.get(url)
-    sleep(5)  # wait for the requests to take place
+    try :
+        # fetch a site that does xhr requests
+        # driver.get("https://www.tiket.com/review?product_type=TIXHOTEL&searchType=INVENTORY&inventory_id=infinity8-bali-506001655965152937&reviewSubmitColumn=RATING_SUMMARY&hideToolbar=null")
+        driver.get(url)
+        sleep(5)  # wait for the requests to take place
 
-    # extract requests from logs
-    page_class = "Pagination_page_number__iJiI3 HcPVsG_text HcPVsG_size_b2 HcPVsG_weight_bold"
-    l = 0
-    for page in driver.find_elements(By.XPATH, "//*[@class='Pagination_page_number__iJiI3 HcPVsG_text HcPVsG_size_b2 HcPVsG_weight_bold']"):
-        try :
-            l = int(page.text)
-        except : 
-            print("Error occur! page_text =", page.text)
-    i = 0
-    print("total pages:",l)
+        # extract requests from logs
+        page_class = "Pagination_page_number__iJiI3 HcPVsG_text HcPVsG_size_b2 HcPVsG_weight_bold"
+        l = 0
+        for page in driver.find_elements(By.XPATH, "//*[@class='Pagination_page_number__iJiI3 HcPVsG_text HcPVsG_size_b2 HcPVsG_weight_bold']"):
+            try :
+                l = int(page.text)
+            except : 
+                print("Error occur! page_text =", page.text)
+        i = 0
+        print("total pages:",l)
 
-    total_reviews = int(driver.find_element(By.XPATH, "//*[@class='HcPVsG_text HcPVsG_variant_lowEmphasis HcPVsG_size_b3 HcPVsG_weight_regular']").text.split(" ")[1])
-    print("total reviews:",total_reviews)
+        total_reviews = int(driver.find_element(By.XPATH, "//*[@class='HcPVsG_text HcPVsG_variant_lowEmphasis HcPVsG_size_b3 HcPVsG_weight_regular']").text.split(" ")[1])
+        print("total reviews:",total_reviews)
 
-    # driver.find_element(By.XPATH, "//*[@class='Filter_desktop_filter_text__GQYAq HcPVsG_text HcPVsG_size_b2 HcPVsG_weight_regular']").click()
-    for filt in driver.find_elements(By.XPATH,"//*[@class='zOEqrG_chip zOEqrG_size_default']"):
-        if filt.get_attribute("data-testid") == "sort-filter":
-            filt.click()
-            break
-        else :
-            print(filt.get_attribute("data-testid"))
-    for sortby in WebDriverWait(driver,12).until(EC.presence_of_all_elements_located((By.XPATH, "//*[@class='CollapseComponent_filter_option_container__3akFB']"))):
-        if sortby.text == 'Review Terbaru':
-            print("Good!", sortby.text)
-            sortby.click()
-            break
-        else :
-            print(sortby.text)
-    
-    dict_name = url.split('&')[2][13:]
-    if os.path.exists(dict_name):  
-        shutil.rmtree(dict_name)
-    os.makedirs(dict_name)
+        # driver.find_element(By.XPATH, "//*[@class='Filter_desktop_filter_text__GQYAq HcPVsG_text HcPVsG_size_b2 HcPVsG_weight_regular']").click()
+        for filt in driver.find_elements(By.XPATH,"//*[@class='zOEqrG_chip zOEqrG_size_default']"):
+            if filt.get_attribute("data-testid") == "sort-filter":
+                filt.click()
+                break
+            else :
+                print(filt.get_attribute("data-testid"))
+        for sortby in WebDriverWait(driver,12).until(EC.presence_of_all_elements_located((By.XPATH, "//*[@class='CollapseComponent_filter_option_container__3akFB']"))):
+            if sortby.text == 'Review Terbaru':
+                print("Good!", sortby.text)
+                sortby.click()
+                break
+            else :
+                print(sortby.text)
+        
+        dict_name = url.split('&')[2][13:]
+        if os.path.exists(dict_name):  
+            shutil.rmtree(dict_name)
+        os.makedirs(dict_name)
+    except :
+        driver.quit()
     return dict_name, driver, total_reviews, l
 
 

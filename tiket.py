@@ -37,11 +37,7 @@ This is only for educational purposes<br>
 Unethically Scraping data from tiket.com is illegal by law<br>
 Please read the robots.txt in tiket.com for further information</p></div>
 """, unsafe_allow_html=True)
-url = st.text_input("Tiket.com Reviews Url")
-st.text("Example : https://www.tiket.com/review?product_type=TIXHOTEL&searchType=INVENTORY&inventory_id=neo-denpasar-108001534490316188&reviewSubmitColumn=RATING_SUMMARY&hideToolbar=null")
-st.markdown("""<div style="text-align: center;">
-<p style="color:yellow;">Note : Extracting data often fail due to page redirection</p></div>
-""", unsafe_allow_html=True)
+
 oo = []
 # opt = (f_name)
 opt = {}
@@ -89,11 +85,20 @@ if 'dis' not in st.session_state:
 def convert_df(df):
     return df.to_csv().encode('utf-8')
 
-if st.button(label="Extract Reviews Data", disabled=st.session_state.get('dis',True)):
+
+url = st.text_input("Tiket.com Reviews Url")
+st.text("Example : https://www.tiket.com/review?product_type=TIXHOTEL&searchType=INVENTORY&inventory_id=neo-denpasar-108001534490316188&reviewSubmitColumn=RATING_SUMMARY&hideToolbar=null")
+st.markdown("""<div style="text-align: center;">
+<p style="color:yellow;">Note : Extracting data often fail due to page redirection</p></div>
+""", unsafe_allow_html=True)
+
+def disable():
+    st.session_state.dis = True
+
+if st.button(label="Extract Reviews Data",on_click=disable, disabled=st.session_state.get('dis',True)):
     if url != "":
         st.write("Extracting data...")
         try :
-            st.session_state.dis = True
             dict_name, driver,total_reviews, total_pages = extract.scrape_reviews(url.strip())
             st.session_state.hotel.append(dict_name)
             # st.progress(st.session_state.extract_progress, f'{st.session_state.extract_progress*100}%')
@@ -110,8 +115,7 @@ if st.button(label="Extract Reviews Data", disabled=st.session_state.get('dis',T
                     m = extract.scrape_one_page(dict_name, driver, n)
                     bar.progress(m/total_pages)
             except Exception as e:
-                # print("Timeout!")
-                # st.write(e)
+                driver.quit()
                 st.write("The operation cancelled on the way!")
             n_data = m*5
             st.session_state.dis = False
