@@ -22,7 +22,7 @@ def installff():
     os.system('chmod 777 chromedriver')
     os.system('chmod 777')
     os.system('chmod 777 /home/adminuser/venv/lib/python3.9/site-packages/seleniumbase/drivers/chromedriver-linux64.zip')
-    os.system('chmod +x /home/appuser/venv/lib/python3.7/site-packages/seleniumbase/drivers/chromedriver')
+    os.system('chmod +x /home/appuser/venv/lib/python3.9/site-packages/seleniumbase/drivers/chromedriver')
     os.system('ln -s /home/appuser/venv/lib/python3.7/site-packages/seleniumbase/drivers/chromedriver /home/appuser/venv/bin/chromedriver')
 
 _ = installff()
