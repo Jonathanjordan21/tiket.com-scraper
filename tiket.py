@@ -131,6 +131,7 @@ if st.button(label="Extract Reviews Data",on_click=disable, disabled=st.session_
 
         except Exception as e:
             st.write(e)
+            print(e)
             st.session_state.dis = False
             st.write("Oops! Something's Wrong! Please check the url")
     else :

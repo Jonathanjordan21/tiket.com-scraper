@@ -17,8 +17,17 @@
 
 ## Streamlit Demo App
 https://tiketcom.streamlit.app/
-<h4>There are several limitations on using streamlit cloud compared to using local server.</h4>
-<h4>Redirection to other pages is more frequent when using streamlit cloud</h4>
-<h4>Thus, you'll more likely not to get the data as a whole</h4>
+There are several limitations on using streamlit cloud compared to using local server<br>
+Redirection to other pages is more frequent when using streamlit cloud. Therefore, you'll more likely not to get the data as a whole
+
+## Warning : StreamLit Demo App Is No Longer Working!
+Page redirection has been more strict recently, The only way to use this is by running locally and change to non-headless mode.<br>
+1. Fork or Clone this git.
+2. install the requirements `pip install -r requirements.txt`
+3. Remove `options.add_argument('--headless')` in `scrape_reviews` **function** inside **extract.py** to change to non-headless mode.
+4. run streamlit locally `streamlit run tiket.py`
+<br>
+Note : The local mode can potentially be broken in the future due to strict page redirection
+
 
 

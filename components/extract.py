@@ -27,7 +27,7 @@ def scrape_reviews(url):
     # options = webdriver.FirefoxOptions()
     
     # Chrome will start in Headless mode
-    options.add_argument('--headless')
+    # options.add_argument('--headless')
 
     # Ignores any certificate errors if there is any
     options.add_argument("--ignore-certificate-errors")
@@ -46,14 +46,19 @@ def scrape_reviews(url):
         # service = Service(ChromeDriverManager().install()),
         # service=Service(ChromeDriverManager().install()),
         options=options,
+        # headless=True
         # desired_capabilities=desired_capabilities
     )
+    
 
     try :
         # fetch a site that does xhr requests
         # driver.get("https://www.tiket.com/review?product_type=TIXHOTEL&searchType=INVENTORY&inventory_id=infinity8-bali-506001655965152937&reviewSubmitColumn=RATING_SUMMARY&hideToolbar=null")
         driver.get(url)
-        sleep(10)  # wait for the requests to take place
+        sleep(5)  # wait for the requests to take place
+        # input()
+        total_reviews = int(driver.find_element(By.XPATH, "//*[@class='HcPVsG_text HcPVsG_variant_lowEmphasis HcPVsG_size_b3 HcPVsG_weight_regular']").text.split(" ")[1])
+        print("total reviews:",total_reviews)
 
         # extract requests from logs
         page_class = "Pagination_page_number__iJiI3 HcPVsG_text HcPVsG_size_b2 HcPVsG_weight_bold"
@@ -66,10 +71,11 @@ def scrape_reviews(url):
         i = 0
         print("total pages:",l)
 
-        # driver.find_element(By.XPATH, "//*[@class='Filter_desktop_filter_text__GQYAq HcPVsG_text HcPVsG_size_b2 HcPVsG_weight_regular']").click()
+        driver.find_element(By.XPATH, "//*[@class='Filter_desktop_filter_text__GQYAq HcPVsG_text HcPVsG_size_b2 HcPVsG_weight_regular']").click()
         for filt in driver.find_elements(By.XPATH,"//*[@class='zOEqrG_chip zOEqrG_size_default']"):
             if filt.get_attribute("data-testid") == "sort-filter":
                 filt.click()
+                sleep(2.3)
                 break
             else :
                 print(filt.get_attribute("data-testid"))
@@ -81,6 +87,8 @@ def scrape_reviews(url):
             else :
                 print(sortby.text)
         
+        
+        
         dict_name = url.split('&')[2][13:]
         if os.path.exists(dict_name):  
             shutil.rmtree(dict_name)
@@ -88,13 +96,13 @@ def scrape_reviews(url):
     except Exception as e:
         driver.quit()
         raise Exception(e)
-    total_reviews = int(driver.find_element(By.XPATH, "//*[@class='HcPVsG_text HcPVsG_variant_lowEmphasis HcPVsG_size_b3 HcPVsG_weight_regular']").text.split(" ")[1])
-    print("total reviews:",total_reviews)
+    
     return dict_name, driver, total_reviews, l
 
 
 
 def scrape_pages(dict_name, driver, l):
+    
     try:
         for n in range(2,l+1):
         
@@ -152,7 +160,8 @@ def scrape_pages(dict_name, driver, l):
         return n
     
 def scrape_one_page(dict_name, driver, n):
-    
+    # sleep(1)
+    # input()
     if n == 7:
         for page in driver.find_elements(By.XPATH, "//*[@class='Pagination_page_number__iJiI3 HcPVsG_text HcPVsG_size_b2 HcPVsG_weight_bold']"):
             if int(page.text) == 1:
