@@ -66,9 +66,6 @@ def scrape_reviews(url):
         i = 0
         print("total pages:",l)
 
-        total_reviews = int(driver.find_element(By.XPATH, "//*[@class='HcPVsG_text HcPVsG_variant_lowEmphasis HcPVsG_size_b3 HcPVsG_weight_regular']").text.split(" ")[1])
-        print("total reviews:",total_reviews)
-
         # driver.find_element(By.XPATH, "//*[@class='Filter_desktop_filter_text__GQYAq HcPVsG_text HcPVsG_size_b2 HcPVsG_weight_regular']").click()
         for filt in driver.find_elements(By.XPATH,"//*[@class='zOEqrG_chip zOEqrG_size_default']"):
             if filt.get_attribute("data-testid") == "sort-filter":
@@ -91,6 +88,8 @@ def scrape_reviews(url):
     except Exception as e:
         driver.quit()
         raise Exception(e)
+    total_reviews = int(driver.find_element(By.XPATH, "//*[@class='HcPVsG_text HcPVsG_variant_lowEmphasis HcPVsG_size_b3 HcPVsG_weight_regular']").text.split(" ")[1])
+    print("total reviews:",total_reviews)
     return dict_name, driver, total_reviews, l
 
 
