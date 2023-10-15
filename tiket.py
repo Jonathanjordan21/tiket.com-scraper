@@ -129,7 +129,8 @@ if st.button(label="Extract Reviews Data",on_click=disable, disabled=st.session_
                 st.write(f"Congratulations! You have sucessfully downloaded {total_reviews} reviews out of {total_reviews}")
             driver.quit()
 
-        except :
+        except Exception as e:
+            print(e)
             st.session_state.dis = False
             st.write("Oops! Something's Wrong! Please check the url")
     else :
