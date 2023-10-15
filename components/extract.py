@@ -53,7 +53,7 @@ def scrape_reviews(url):
         # fetch a site that does xhr requests
         # driver.get("https://www.tiket.com/review?product_type=TIXHOTEL&searchType=INVENTORY&inventory_id=infinity8-bali-506001655965152937&reviewSubmitColumn=RATING_SUMMARY&hideToolbar=null")
         driver.get(url)
-        sleep(5)  # wait for the requests to take place
+        sleep(10)  # wait for the requests to take place
 
         # extract requests from logs
         page_class = "Pagination_page_number__iJiI3 HcPVsG_text HcPVsG_size_b2 HcPVsG_weight_bold"
@@ -89,8 +89,8 @@ def scrape_reviews(url):
             shutil.rmtree(dict_name)
         os.makedirs(dict_name)
     except Exception as e:
-        raise Exception(e)
         driver.quit()
+        raise Exception(e)
     return dict_name, driver, total_reviews, l
 
 
