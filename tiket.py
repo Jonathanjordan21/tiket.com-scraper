@@ -6,18 +6,18 @@ import os
 
 @st.cache_resource
 def installff():
-#     os.system('curl https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb')
-#     os.system('dpkg -i google-chrome-stable_current_amd64.deb')
-# #     # os.system('!wget https://chromedriver.storage.googleapis.com/2.46/chromedriver_linux64.zip')
-# #     # os.system('!unzip chromedriver_linux64.zip')
-# #     # os.system('chmod +x chromedriver')
-# #     # os.system('mv -f chromedriver /home/appuser/venv/bin/chromedriver')
-# #     # os.system('sbase get chromedriver latest')
-# #     # # os.system('sbase get chromedriver 107')
+    os.system('curl https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb')
+    os.system('dpkg -i google-chrome-stable_current_amd64.deb')
+    os.system('!wget https://chromedriver.storage.googleapis.com/2.46/chromedriver_linux64.zip')
+    os.system('!unzip chromedriver_linux64.zip')
+    os.system('chmod +x chromedriver')
+    os.system('mv -f chromedriver /home/appuser/venv/bin/chromedriver')
+    os.system('sbase get chromedriver latest')
+    os.system('sbase get chromedriver 107')
     os.system('sbase install chromedriver latest')
     
-# #     # # os.system('sbase get chromedriver latest')
-# #     # # os.system('sbase get chromedriver latest-1')
+    os.system('sbase get chromedriver latest')
+    os.system('sbase get chromedriver latest-1')
     os.system('chmod +x chromedriver')
     os.system('chmod 777 chromedriver')
     os.system('chmod 777')
