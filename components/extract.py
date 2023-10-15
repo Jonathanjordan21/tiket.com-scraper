@@ -27,7 +27,7 @@ def scrape_reviews(url):
     # options = webdriver.FirefoxOptions()
     
     # Chrome will start in Headless mode
-    options.add_argument('--headless')
+    # options.add_argument('--headless')
 
     # Ignores any certificate errors if there is any
     options.add_argument("--ignore-certificate-errors")
