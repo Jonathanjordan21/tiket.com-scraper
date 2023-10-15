@@ -43,7 +43,7 @@ def scrape_reviews(url):
     # options.set_capability("marionette", False)
     
     driver = webdriver.Chrome(
-        service = Service(ChromeDriverManager().install()),
+        # service = Service(ChromeDriverManager().install()),
         # service=Service(ChromeDriverManager().install()),
         options=options,
         # desired_capabilities=desired_capabilities
@@ -88,7 +88,8 @@ def scrape_reviews(url):
         if os.path.exists(dict_name):  
             shutil.rmtree(dict_name)
         os.makedirs(dict_name)
-    except :
+    except Exception as e:
+        raise Exception(e)
         driver.quit()
     return dict_name, driver, total_reviews, l
 
